@@ -1,6 +1,7 @@
 ﻿using AsmResolver.PE.DotNet.Cil;
 using Echo.Ast.Patterns;
-using EchoAstFun;
+
+namespace EchoAstFun;
 
 public class CilInstructionPattern : Pattern<CilInstruction>
 {
@@ -29,13 +30,12 @@ public class CilInstructionPattern : Pattern<CilInstruction>
     private Pattern<CilOpCode> OpCode
     {
         get;
-        set;
     }
 
     private Pattern<object>[]? Operand
     {
         get;
-    } = null;
+    }
     
     protected override void MatchChildren(CilInstruction input, MatchResult result)
     {
@@ -45,6 +45,7 @@ public class CilInstructionPattern : Pattern<CilInstruction>
         
         for (var i = 0; i < Operand?.Length; i++)
         {
+            // i'm too lazy to make this part better...
             if (Operand[i] is LiteralPattern<object> { Value: MemberReferencePattern mRef })
                 mRef.Match(input, result);
             else
